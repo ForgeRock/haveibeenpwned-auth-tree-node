@@ -105,14 +105,14 @@ public class HaveIBeenPwnedNode extends AbstractDecisionNode {
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Accept", "*/*");
             conn.setRequestProperty("content-type", "application/json");
-            conn.setRequestProperty("User-Agent", "curl/7.29.0");
+            conn.setRequestProperty("User-Agent", "ForgeRock HaveIBeenPwned Authentication Node");
             if (conn.getResponseCode() == 404) {
                 debug.error("[" + DEBUG_FILE + "]: response 404 - no breaches found");
                 return false;
             }
             if (conn.getResponseCode() != 200) {
-                debug.error("[" + DEBUG_FILE + "]: HTTP failed, response code:" + conn.getResponseCode());
-                throw new RuntimeException("[" + DEBUG_FILE + "]: HTTP error code : " + conn.getResponseCode());
+                debug.error("[" + DEBUG_FILE + "]: HTTP failed, response code: " + conn.getResponseCode() + " - " + conn.getResponseMessage());
+                throw new RuntimeException("[" + DEBUG_FILE + "]: HTTP error code : " + conn.getResponseCode() + " - " + conn.getResponseMessage());
             }
 
             BufferedReader br = new BufferedReader(new InputStreamReader((conn.getInputStream())));
